@@ -34,10 +34,11 @@ jobs:
 
       - name: Extract project
         run: |
-          mkdir -p extracted
-          unzip -q ImageToPromptAI-AndroidStudio.zip -d extracted
-          ls -la extractedrun           
-          
+          unzip -p extracted
+          unzip -o "$GITHUB_WORKSPACE/ImageToPromptAI-AndroidStudio.zip" -d extracted
+          find extracted -maxdepth 4 -type f
+
+  
           - name: Build APK
             working-directory: extracted/ImageToPromptAI
           run: gradle assembleDebug
