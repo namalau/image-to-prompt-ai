@@ -33,14 +33,21 @@ jobs:
           packages: platform-tools
 
       
+      
+      
       - name: Extract project
         run: |
-          mkdir extracted
-          unzip -q ImageToPromptAI-AndroidStudio.zip -d extracJava
-     
+          mkdir -p extracted
+          unzip -q ImageToPromptAI-AndroidStudio.zip -d extracted
+          echo "ISI FOLDER HASIL EKSTRAK:"
+          ls -la extracted
+          echo "LOKASI GRADLE WRAPPER:"
+          find extracted -maxdepth 5 -name gradlew -print
+
       - name: Build APK
-        working-directory: extracted/ImageToPromptAI
-        run: gradle assembleDebug
+        run: |
+          cd extracted
+          find . -name gradlew -type f
 
       - name: Save APK
         uses: actions/upload-artifact@v4
