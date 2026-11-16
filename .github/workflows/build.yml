@@ -11,6 +11,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,43 +27,25 @@ jobs:
         with:
           gradle-version: '8.9'
 
-    
       - name: Setup Android SDK
         uses: android-actions/setup-android@v4
         with:
           packages: platform-tools
 
-      
-      
-      
-      
       - name: Extract project
         run: |
           mkdir -p extracted
           unzip -q ImageToPromptAI-AndroidStudio.zip -d extracted
-          echo "ISI FOLDER HASIL EKSTRAK:"
-          ls -la extracted
-          echo "LOKASI GRADLE WRAPPER:"
-          find extracted -maxdepth 5 -name gradlew -print
+          ls -la extractedrun           
+          
+          - name: Build APK
+            working-directory: extracted/ImageToPromptAI
+          run: gradle assembleDebug
 
+      - name: Save APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: ImageToPromptAI-APK
+          path: extracted/ImageToPromptAI/app/build/outputs/apk/debug/app-debug.apk
       
-      
-      - name: Build APK
-        run: |
-          echo "Mencari Gradle Wrapper..."
-          find extracted -type f -name gradlew -print
-
-          WRAPPER=$(find extracted -type f -name gradlew | head -n 1)
-
-          if [ -z "$WRAPPER" ]; then
-            echo "ERROR: gradlew tidak ditemukan!"
-            echo "Isi folder extracted:"
-            find extracted -maxdepth 4 -type f | head -100
-            exit 1
-          fi
-
-          PROJECT_DIR=$(dirname "$WRAPPER")
-          cd "$PROJECT_DIR"
-
-          chmod +x gradlew
-          ./gradlew assembleDebug
+  
