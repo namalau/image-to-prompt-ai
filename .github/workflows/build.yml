@@ -32,10 +32,12 @@ jobs:
         with:
           packages: platform-tools
 
+      
       - name: Extract project
-        run:    mk      mkdir extracted
-          unzip -q ImageToPromptAI-AndroidStudio.zip -d extracted
-
+        run: |
+          mkdir extracted
+          unzip -q ImageToPromptAI-AndroidStudio.zip -d extracJava
+     
       - name: Build APK
         working-directory: extracted/ImageToPromptAI
         run: gradle assembleDebug
