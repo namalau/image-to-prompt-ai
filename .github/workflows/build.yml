@@ -34,10 +34,10 @@ jobs:
 
       - name: Extract project
         run: |
-          unzip -p extracted
-          unzip -o "$GITHUB_WORKSPACE/ImageToPromptAI-AndroidStudio.zip" -d extracted
-          find extracted -maxdepth 4 -type f
-
+          echo "CEK FILE ZIP"
+          ls -lh "$GITHUB_WORKSPACE"
+          echo "CEK ISI ZIP"
+          unzip -l "$GITHUB_WORKSPACE/ImageToPromptAI-AndroidStudio.zip"
   
           - name: Build APK
             working-directory: extracted/ImageToPromptAI
