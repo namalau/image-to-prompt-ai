@@ -44,13 +44,17 @@ jobs:
           echo "LOKASI GRADLE WRAPPER:"
           find extracted -maxdepth 5 -name gradlew -print
 
+    
+
+     
       - name: Build APK
         run: |
           cd extracted
-          find . -name gradlew -type f
-
-      - name: Save APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: ImageToPromptAI-APK
-          path: extracted/ImageToPromptAI/app/build/outputs/apk/debug/app-debug.apk
+          GRADLEW=$(find . -type f -name gradlew | head -n 1)
+          if [ -z "$GRADLEW" ]; then
+            echo "gradlew tidak ditemukan"
+            exit 1
+          fi
+          chmod +x "$GRADLEW"
+          cd "$(dirname "$GRADLEW")"
+          ./gradlew assembleDebug
