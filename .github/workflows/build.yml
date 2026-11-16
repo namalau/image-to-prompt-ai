@@ -57,4 +57,7 @@ jobs:
           fi
           chmod +x "$GRADLEW"
           cd "$(dirname "$GRADLEW")"
-          ./gradlew assembleDebug
+          ./gradlew assemextracted
+      
+    
+    
