@@ -35,6 +35,7 @@ jobs:
       
       
       
+      
       - name: Extract project
         run: |
           mkdir -p extracted
@@ -44,9 +45,7 @@ jobs:
           echo "LOKASI GRADLE WRAPPER:"
           find extracted -maxdepth 5 -name gradlew -print
 
-    
-
-     
+      
       - name: Build APK
         run: |
           cd extracted
@@ -57,7 +56,4 @@ jobs:
           fi
           chmod +x "$GRADLEW"
           cd "$(dirname "$GRADLEW")"
-          ./gradlew assemextracted
-      
-    
-    
+          ./gradlew assembleDebug
