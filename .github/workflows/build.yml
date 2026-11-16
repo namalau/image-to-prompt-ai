@@ -46,14 +46,23 @@ jobs:
           find extracted -maxdepth 5 -name gradlew -print
 
       
+      
       - name: Build APK
         run: |
-          cd extracted
-          GRADLEW=$(find . -type f -name gradlew | head -n 1)
-          if [ -z "$GRADLEW" ]; then
-            echo "gradlew tidak ditemukan"
+          echo "Mencari Gradle Wrapper..."
+          find extracted -type f -name gradlew -print
+
+          WRAPPER=$(find extracted -type f -name gradlew | head -n 1)
+
+          if [ -z "$WRAPPER" ]; then
+            echo "ERROR: gradlew tidak ditemukan!"
+            echo "Isi folder extracted:"
+            find extracted -maxdepth 4 -type f | head -100
             exit 1
           fi
-          chmod +x "$GRADLEW"
-          cd "$(dirname "$GRADLEW")"
+
+          PROJECT_DIR=$(dirname "$WRAPPER")
+          cd "$PROJECT_DIR"
+
+          chmod +x gradlew
           ./gradlew assembleDebug
